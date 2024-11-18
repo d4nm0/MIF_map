@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire d'ajout de données</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Ajouter un Marqueur</h1>
+    <form id="markerForm">
+        <label for="lat">Latitude :</label>
+        <input type="number" id="lat" name="lat" step="any" required>
+
+        <label for="lng">Longitude :</label>
+        <input type="number" id="lng" name="lng" step="any" required>
+
+        <label for="title">Titre :</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Description :</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="image">URL de l'image :</label>
+        <input type="url" id="image" name="image" required>
+
+        <label for="link">Lien :</label>
+        <input type="url" id="link" name="link" required>
+
+        <label for="type">Type :</label>
+        <select id="type" name="type" required>
+            <option value="usi">USI</option>
+            <option value="mag">Magasin</option>
+        </select>
+
+        <button type="submit">Soumettre</button>
+    </form>
+
+    <script  type="module">
+        // Initialiser Supabase
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+        import { SUPABASE_URL, SUPABASE_KEY } from './config.js'; 
+
+        const PASSWORD = process.env.PASSWORD;
+        
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Fonction pour se connecter
+        async function signIn() {
+            const { user, error } = await supabase.auth.signInWithPassword({
+                email: 'dan.monceau.lpcb@gmail.com',  // Remplacez par votre email
+                password: PASSWORD,  // Remplacez par votre mot de passe
+            });
+ 
+            if (error) {
+                console.error('Erreur de connexion :', error.message);
+            } else {
+                console.log('Utilisateur connecté :', user);
+                // Vous pouvez ensuite rediriger l'utilisateur vers une autre page ou stocker son état
+            }
+        }
+
+        // Gérer la soumission du formulaire
+        const form = document.getElementById('markerForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Récupérer les données du formulaire
+            const lat = parseFloat(document.getElementById('lat').value);
+            const lng = parseFloat(document.getElementById('lng').value);
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const image = document.getElementById('image').value;
+            const link = document.getElementById('link').value;
+            const type = document.getElementById('type').value;
+
+             
+
+            // Insérer les données dans Supabase
+            const { data, error } = await supabase
+                .from('Marker')  // Nom de la table Supabase
+                .insert([ { lat, lng, title, description, image, link, type } ]);
+
+            if (error) {
+                console.error('Erreur lors de l\'insertion des données :', error);
+                alert('Erreur lors de l\'ajout du marqueur.');
+            } else {
+                alert('Marqueur ajouté avec succès !');
+                form.reset();  // Réinitialiser le formulaire
+            }
+        });
+
+        // Appel de signIn pour la connexion
+        signIn();
+    </script>
+</body>
+</html>
