@@ -1,32 +1,5 @@
 [
     {
-        "lat": 48.8566,
-        "lng": 2.3522,
-        "title": "Paris",
-        "description": "La capitale de la France, célèbre pour la Tour Eiffel.",
-        "image": "https://dummyimage.com/300",
-        "link": "https://fr.wikipedia.org/wiki/Paris",
-        "type":"mag"
-    },
-    {
-        "lat": 43.2965,
-        "lng": 5.3698,
-        "title": "Marseille",
-        "description": "Une ville portuaire avec le Vieux-Port et le quartier du Panier.",
-        "image": "https://dummyimage.com/300",
-        "link": "https://fr.wikipedia.org/wiki/Marseille",
-        "type":"usi"
-    },
-    {
-        "lat": 45.764,
-        "lng": 4.8357,
-        "title": "Lyon",
-        "description": "Connue pour sa gastronomie et son patrimoine historique.",
-        "image": "https://dummyimage.com/300",
-        "link": "https://fr.wikipedia.org/wiki/Lyon",
-        "type":"usi"
-    },
-    {
         "lat": 48.19424949404331,
         "lng": 6.7016752281686465,
         "title": "Les Petits Culottés - Fabrication de couches",
@@ -51,6 +24,15 @@
         "description": "Les Petits Culottés est une marque de couches bio (5 tailles, de 2 à 20kg), sans parfum, ni chlore, disponible en abonnement.",
         "image": "https://www.marques-de-france.fr/wp-content/uploads/2020/10/Petits-culottes-couche-presentation-1280x618.png.webp",
         "link": "https://www.lespetitsculottes.com/fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 47.975842891434986,
+        "lng": 2.698716764825409,
+        "title": "France Luxury Shirt - la manufacture de chemises de luxe",
+        "description": "France Luxury Shirt est un atelier de confection de chemises de luxe situé à Villemandeur, fondé en 1830, qui a évolué d'une spécialisation en maroquinerie militaire à la haute couture.",
+        "image": "https://s1.qwant.com/thumbr/400x0/9/e/0e60b3f6e69b319f08a525c2c750941ad3c2f49b75f3c7a7a99f5f0bfb6c49/WY57TNFHSVG75KYDFXKSE6IS7Y.jpg?u=https%3A%2F%2Fwww.leparisien.fr%2Fresizer%2FficzTTUbYs8NHSy5Fh3YIYQilAM%3D%2F1200x675%2Fcloudfront-eu-central-1.images.arcpublishing.com%2Fleparisien%2FWY57TNFHSVG75KYDFXKSE6IS7Y.jpg&q=0&b=1&p=0&a=0",
+        "link": "https://maisondusavoirfaire.com/magazine/france-luxury-shirt-la-manufacture-de-chemises-de-luxe-qui-conjugue-savoir-faire-et",
         "type":"usi"
     }
 ]
