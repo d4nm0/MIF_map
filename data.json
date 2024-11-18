@@ -25,5 +25,14 @@
         "image": "https://dummyimage.com/300",
         "link": "https://fr.wikipedia.org/wiki/Lyon",
         "type":"usi"
+    },
+    {
+        "lat": 48.19424949404331,
+        "lng": 6.7016752281686465,
+        "title": "Les Petits Culottés - Fabrication des couches",
+        "description": "Les Petits Culottés est une marque de couches bio (5 tailles, de 2 à 20kg), sans parfum, ni chlore, disponible en abonnement.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2020/10/Petits-culottes-couche-presentation-1280x618.png.webp",
+        "link": "https://www.lespetitsculottes.com/fr/",
+        "type":"usi"
     }
 ]
