@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire d'ajout de données</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-        form {
-            width: 300px;
-            margin: 0 auto;
         }
         input, textarea, select {
             width: 100%;
@@ -32,37 +29,77 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Ajouter un Marqueur</h1>
-    <form id="markerForm">
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" required>
-
-        <label for="lat">Latitude :</label>
-        <input type="number" id="lat" name="lat" step="any" required>
-
-        <label for="lng">Longitude :</label>
-        <input type="number" id="lng" name="lng" step="any" required>
-
-        <label for="title">Titre :</label>
-        <input type="text" id="title" name="title" required>
-
-        <label for="description">Description :</label>
-        <textarea id="description" name="description" required></textarea>
-
-        <label for="image">URL de l'image :</label>
-        <input type="url" id="image" name="image" required>
-
-        <label for="link">Lien :</label>
-        <input type="url" id="link" name="link" required>
-
-        <label for="type">Type :</label>
-        <select id="type" name="type" required>
-            <option value="usi">USI</option>
-            <option value="mag">Magasin</option>
-        </select>
-
-        <button type="submit">Soumettre</button>
+    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="fav.png" class="h-8" alt="FranceFabrique.fr Logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">FranceFabrique.fr</span>
+        </a>
+        <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+            </svg>
+        </button>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+            <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <li>
+                <a href="form.html" class="block py-2 px-3 text-white bg-white-700 rounded md:bg-transparent md:text-white-700 md:p-0 dark:text-white md:dark:text-white-500" aria-current="page">Formulaire</a>
+            </li> 
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <h1 class="text-center text-3xl font-semibold mb-8">Ajouter un Marqueur</h1>
+    <form id="markerForm" class="space-y-4 max-w-lg mx-auto p-6 border border-gray-300 rounded-lg shadow-md">
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe :</label>
+            <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="lat" class="block text-sm font-medium text-gray-700">Latitude :</label>
+            <input type="number" id="lat" name="lat" step="any" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="lng" class="block text-sm font-medium text-gray-700">Longitude :</label>
+            <input type="number" id="lng" name="lng" step="any" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Titre :</label>
+            <input type="text" id="title" name="title" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">Description :</label>
+            <textarea id="description" name="description" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+        </div>
+    
+        <div>
+            <label for="image" class="block text-sm font-medium text-gray-700">URL de l'image :</label>
+            <input type="url" id="image" name="image" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="link" class="block text-sm font-medium text-gray-700">Lien :</label>
+            <input type="url" id="link" name="link" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+    
+        <div>
+            <label for="type" class="block text-sm font-medium text-gray-700">Type :</label>
+            <select id="type" name="type" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="usi">USI</option>
+                <option value="mag">Magasin</option>
+            </select>
+        </div>
+    
+        <div>
+            <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Soumettre</button>
+        </div>
     </form>
+    
 
     <script  type="module">
         // Initialiser Supabase
