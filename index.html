@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte Interactive avec Popups Riches</title>
+    <title>France Fabrique</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
         #map {
-            height: 100vh;
+            height: 95vh;
         }
         .popup-content {
             text-align: center;
@@ -33,15 +33,26 @@
         .popup-content a:hover {
             text-decoration: underline;
         }
+        .marker-icon img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
+    <header style="text-align: center; font-family: fantasy; text-transform: uppercase;">france fabrique.fr</header>
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script type="module">
+        // Importer le SDK de Supabase
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    <script>
+        import { SUPABASE_URL, SUPABASE_KEY } from './config.js'; 
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const map = L.map('map').setView([46.603354, 1.888334], 6);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,64 +65,63 @@
         // Définir des icônes pour chaque type
         const iconMap = {
             usi: L.icon({
-                iconUrl: 'usi.png', // Remplace par le chemin de ton icône
-                iconSize: [20, 32], // Taille de l'icône
-                iconAnchor: [16, 32], // Point d'ancrage de l'icône
-                popupAnchor: [0, -32], // Position du popup
+                iconUrl: 'usi.png',
+                iconSize: [20, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32],
                 className: 'marker-icon'
             }),
             mag: L.icon({
-                iconUrl: 'mif.png', // Remplace par le chemin de ton icône
-                iconSize: [32, 32], 
-                iconAnchor: [16, 32], 
-                popupAnchor: [0, -32], 
+                iconUrl: 'mif.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32],
                 className: 'marker-icon'
             })
         };
 
-        // Charger les données depuis data.json
-        fetch('data.json')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(point => {
-                    // Définir l'icône en fonction du type
-                    const markerIcon = iconMap[point.type] || L.icon({
-                        iconUrl: 'marker.png', // Icône par défaut
-                        iconSize: [32, 32], 
-                        iconAnchor: [16, 32], 
-                        popupAnchor: [0, -32],
-                        className: 'marker-icon'
-                    });
+        async function fetchData() {
+            // Récupérer les données depuis Supabase
+            const { data, error } = await supabase
+                .from('Marker') // Remplacez par le nom de votre table
+                .select('*'); // Sélectionner toutes les colonnes
 
-                    // Créer le marqueur avec l'icône appropriée
-                    const marker = L.marker([point.lat, point.lng], { icon: markerIcon });
+            if (error) {
+                console.error('Erreur lors de la récupération des données :', error);
+                return;
+            }
 
-                    // Contenu enrichi de la popup
-                    const popupContent = `
-                        <div class="popup-content">
-                            <img src="${point.image}" alt="${point.title}" />
-                            <h3>${point.title}</h3>
-                            <p>${point.description}</p>
-                            <a href="${point.link}" target="_blank">En savoir plus</a>
-                        </div>
-                    `;
-
-                    marker.bindPopup(popupContent);
-                    markers.addLayer(marker);
+            console.log(data)
+            // Ajouter les marqueurs à la carte
+            data.forEach(point => {
+                const markerIcon = iconMap[point.type] || L.icon({
+                    iconUrl: 'marker.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32],
+                    className: 'marker-icon'
                 });
 
-                map.addLayer(markers);
-            })
-            .catch(error => {
-                console.error("Erreur lors du chargement des données :", error);
+                const marker = L.marker([point.lat, point.lng], { icon: markerIcon });
+
+                const popupContent = `
+                    <div class="popup-content">
+                        <img src="${point.image}" alt="${point.title}" />
+                        <h3>${point.title}</h3>
+                        <p>${point.description}</p>
+                        <a href="${point.link}" target="_blank">En savoir plus</a>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                markers.addLayer(marker);
             });
-    </script>
-    <style>
-        .marker-icon img {
-            width: 100%;
-            height: auto;  /* Garder les proportions de l'image */
-            object-fit: contain;  /* Assurer que l'image garde ses proportions sans être coupée ou déformée */
+
+            map.addLayer(markers);
         }
-    </style>
+
+        // Appeler la fonction de récupération des données
+        fetchData();
+    </script>
 </body>
 </html>

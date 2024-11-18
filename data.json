@@ -43,5 +43,105 @@
         "image": "https://www.marques-de-france.fr/wp-content/uploads/2021/07/CQFD-boutique-entree-640x342.jpg.webp",
         "link": "https://www.marques-de-france.fr/boutique/cqfd/",
         "type":"mag"
+    },
+    {
+        "lat": 50.94858420865491,
+        "lng": 1.94779041057702,
+        "title": "Marck & Balsan",
+        "description": "Établissement de confection de vêtements appartenant au groupe Marck & Balsan, référence dans l’habillement et l’équipement auprès des administrations et des entreprises privées, en France et à l’international.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/12/marck-et-balsan-calais-atelier-1-640x427.jpeg",
+        "link": "https://www.marcketbalsan.fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 50.669444576458,
+        "lng": 3.0269922071606983,
+        "title": "Lemahieu",
+        "description": "Atelier spécialisé dans la fabrication de sous-vêtements de confort et de bien-être.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/04/lemahieu-atelier-confection-1-320x320.jpeg",
+        "link": "https://www.lemahieu.com/",
+        "type":"usi"
+    },
+    {
+        "lat": 50.63604274700332,
+        "lng": 2.6527344127007826,
+        "title": "L’Ascenseur Confection",
+        "description": "Atelier de confection textile, spécialisé dans les vêtements de travail professionnels.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/04/l-ascenseur-confection-exterieur-640x427.jpeg",
+        "link": "https://www.lascenseur.fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 46.90952965943008,
+        "lng": -2.034372300960577,
+        "title": "Bleu Océane",
+        "description": "Atelier de confection de vêtements et accessoires textiles en toile denim. L'atelier travaille notamm pour les plus grandes maisons de luxe.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/12/bleu-oceane-confection-denim-luxe_1-640x480.jpeg",
+        "link": "https://www.bleu-oceane.com/",
+        "type":"usi"
+    },
+    {
+        "lat": 43.30555393077604,
+        "lng": 5.390316039167086,
+        "title": "Création Anais",
+        "description": "Atelier de confection textile.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2019/03/1083-creations-anais-confection-edouard.webp",
+        "link": "",
+        "type":"usi"
+    },
+    {
+        "lat": 45.30907292511217,
+        "lng": 3.356215481781009,
+        "title": "ASTI",
+        "description": "Atelier de confection textile.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/04/asti-atelier-exterieur-640x480.jpeg",
+        "link": "",
+        "type":"usi"
+    },
+    {
+        "lat": 46.155997425812416,
+        "lng": 4.164243912500564,
+        "title": "Les Tissages de Charlieu",
+        "description": "Atelier spécialisé dans la création de tissus et produits textiles sur-mesure et exclusifs.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/04/les-tissages-de-charlieu-fil-640x427.jpeg.webp",
+        "link": "https://tissagesdecharlieu.fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 46.667604833569484,
+        "lng": 4.3611575971808625,
+        "title": "L’Atelier MCD",
+        "description": "Atelier de confection de vêtements pour plusieurs domaines : sport, chasse, loisirs, prêt-à-porter, travail et professionnels.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2022/04/l-atelier-mcd-vetements-de-loisirs-640x427.jpeg",
+        "link": "https://lateliermcd.fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 45.046145574325045,
+        "lng": 5.0526976394408205,
+        "title": "Cité de la Chaussure (groupe Archer)",
+        "description": "Fabricant de chaussures dont l'atelier est situé au sein de la Cité de la Chaussure, dans le centre-ville de Romans-sur-Isère.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2020/11/Cite-de-la-chaussure-romans-640x853.jpg.webp",
+        "link": "https://www.archer.fr/",
+        "type":"usi"
+    },
+    {
+        "lat": 45.04490745155881,
+        "lng": 5.0623975529344545,
+        "title": "Atelier 1083",
+        "description": "Atelier de conception, de délavage au laser et de confection des jeans 1083. C'est aussi le siège social historique de la marque.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2019/03/1083-atelier-romans-sur-isere-640x480.jpg.webp",
+        "link": "https://www.1083.fr",
+        "type":"usi"
+    }, 
+    {
+        "lat": 48.2982618200205,
+        "lng": 4.075713897252559,
+        "title": "Garçon Français",
+        "description": "Il s'agit d'une boutique officielle de la marque, spécialiste des sous-vêtements. En plus de pouvoir acheter sur place, vous pouvez également y récupérer vos commandes effectuées sur le site officiel de la marque.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2020/05/garcon-francais-1280x583.jpg.webp",
+        "link": "https://garcon-francais.fr/",
+        "type":"mag"
     }
+
 ]
