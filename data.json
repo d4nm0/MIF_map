@@ -1,0 +1,29 @@
+[
+    {
+        "lat": 48.8566,
+        "lng": 2.3522,
+        "title": "Paris",
+        "description": "La capitale de la France, célèbre pour la Tour Eiffel.",
+        "image": "https://dummyimage.com/300",
+        "link": "https://fr.wikipedia.org/wiki/Paris",
+        "type":"mag"
+    },
+    {
+        "lat": 43.2965,
+        "lng": 5.3698,
+        "title": "Marseille",
+        "description": "Une ville portuaire avec le Vieux-Port et le quartier du Panier.",
+        "image": "https://dummyimage.com/300",
+        "link": "https://fr.wikipedia.org/wiki/Marseille",
+        "type":"usi"
+    },
+    {
+        "lat": 45.764,
+        "lng": 4.8357,
+        "title": "Lyon",
+        "description": "Connue pour sa gastronomie et son patrimoine historique.",
+        "image": "https://dummyimage.com/300",
+        "link": "https://fr.wikipedia.org/wiki/Lyon",
+        "type":"usi"
+    }
+]
