@@ -50,8 +50,8 @@
         // Importer le SDK de Supabase
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-        // import { SUPABASE_URL, SUPABASE_KEY } from './config.js'; 
-        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+        import { SUPABASE_URL, SUPABASE_KEY } from './config.js'; 
+        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const map = L.map('map').setView([46.603354, 1.888334], 6);
 

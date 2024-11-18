@@ -1,0 +1,2 @@
+export const SUPABASE_URL="https://jqmqoxjxmgtziqsmbrmj.supabase.co"
+export const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpxbXFveGp4bWd0emlxc21icm1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE5NTUwNDMsImV4cCI6MjA0NzUzMTA0M30.XWNxPWJLV1A-uOb1HayhbTP11X_xOlylwbGwHwbL9Iw"
