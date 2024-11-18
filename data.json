@@ -34,5 +34,14 @@
         "image": "https://s1.qwant.com/thumbr/400x0/9/e/0e60b3f6e69b319f08a525c2c750941ad3c2f49b75f3c7a7a99f5f0bfb6c49/WY57TNFHSVG75KYDFXKSE6IS7Y.jpg?u=https%3A%2F%2Fwww.leparisien.fr%2Fresizer%2FficzTTUbYs8NHSy5Fh3YIYQilAM%3D%2F1200x675%2Fcloudfront-eu-central-1.images.arcpublishing.com%2Fleparisien%2FWY57TNFHSVG75KYDFXKSE6IS7Y.jpg&q=0&b=1&p=0&a=0",
         "link": "https://maisondusavoirfaire.com/magazine/france-luxury-shirt-la-manufacture-de-chemises-de-luxe-qui-conjugue-savoir-faire-et",
         "type":"usi"
+    },
+    {
+        "lat": 43.94613268080141,
+        "lng": 4.807651698848947,
+        "title": "CQFD",
+        "description": "CQFD vous propose une sélection exigeante de produits des univers de la mode et du design. Et vous fait découvrir de beaux objets du quotidien, des pièces rares, voire uniques de créateurs insolites.",
+        "image": "https://www.marques-de-france.fr/wp-content/uploads/2021/07/CQFD-boutique-entree-640x342.jpg.webp",
+        "link": "https://www.marques-de-france.fr/boutique/cqfd/",
+        "type":"mag"
     }
 ]
