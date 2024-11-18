@@ -60,7 +60,22 @@
             maxZoom: 18,
         }).addTo(map);
 
-        const markers = L.markerClusterGroup();
+        const markers = L.markerClusterGroup({
+            iconCreateFunction: function(cluster) {
+                // Récupérer le nombre de marqueurs dans le cluster
+                const markersCount = cluster.getChildCount();
+
+                // Choisir une image selon le nombre de marqueurs
+                let imageUrl = 'cluster.jpg'; // Par défaut, une petite image
+
+                // Retourner un DivIcon personnalisé avec l'image
+                return new L.DivIcon({
+                    html: `<div style="width: 40px; height: 40px; background-image: url(${imageUrl}); background-size: cover; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${markersCount}</div>`,
+                    className: 'marker-cluster',
+                    iconSize: new L.Point(40, 40)  // Taille de l'icône
+                });
+            }
+        });
 
         // Définir des icônes pour chaque type
         const iconMap = {
@@ -90,8 +105,7 @@
                 console.error('Erreur lors de la récupération des données :', error);
                 return;
             }
-
-            console.log(data)
+ 
             // Ajouter les marqueurs à la carte
             data.forEach(point => {
                 const markerIcon = iconMap[point.type] || L.icon({
