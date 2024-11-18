@@ -34,6 +34,9 @@
 <body>
     <h1 style="text-align: center;">Ajouter un Marqueur</h1>
     <form id="markerForm">
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required>
+
         <label for="lat">Latitude :</label>
         <input type="number" id="lat" name="lat" step="any" required>
 
@@ -70,10 +73,10 @@
         const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         
         // Fonction pour se connecter
-        async function signIn() {
+        async function signIn(password) {
             const { user, error } = await supabase.auth.signInWithPassword({
                 email: 'dan.monceau.lpcb@gmail.com',  // Remplacez par votre email
-                password: PASSWORD,  // Remplacez par votre mot de passe
+                password: password,  // Remplacez par votre mot de passe
             });
  
             if (error) {
@@ -89,6 +92,8 @@
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            const password = document.getElementById('password').value;
+
             // Récupérer les données du formulaire
             const lat = parseFloat(document.getElementById('lat').value);
             const lng = parseFloat(document.getElementById('lng').value);
@@ -97,8 +102,10 @@
             const image = document.getElementById('image').value;
             const link = document.getElementById('link').value;
             const type = document.getElementById('type').value;
+            
 
-             
+            await signIn(password);
+
 
             // Insérer les données dans Supabase
             const { data, error } = await supabase
@@ -115,7 +122,7 @@
         });
 
         // Appel de signIn pour la connexion
-        signIn();
+        // signIn();
     </script>
 </body>
 </html>
