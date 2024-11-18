@@ -6,12 +6,13 @@
     <title>France Fabrique</title>
     <link rel="icon" href="fav.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
         #map {
-            height: 90vh;
+            height: calc(100vh - 64px);
         }
         .popup-content {
             text-align: center;
@@ -21,6 +22,8 @@
             max-width: 200px;
             height: auto;
             margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .popup-content h3 {
             margin: 0 0 10px;
@@ -40,9 +43,12 @@
             height: auto;
             object-fit: contain;
         }
+
+    
     </style>
 </head>
 <body>
+    <!-- <header style="text-align: center; font-family: fantasy; text-transform: uppercase;">france fabrique.fr</header> -->
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -64,7 +70,6 @@
         </div>
         </div>
     </nav>
-  
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -159,6 +164,19 @@
 
         // Appeler la fonction de récupération des données
         fetchData();
+
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const navbar = document.getElementById('navbar-default');
+
+        // Ajouter un écouteur d'événements sur le bouton hamburger
+        hamburgerButton.addEventListener('click', () => {
+            // Bascule la classe 'hidden' pour afficher ou masquer le menu
+            navbar.classList.toggle('hidden');
+            
+            // Mettez à jour l'attribut 'aria-expanded' pour l'accessibilité
+            const isExpanded = navbar.classList.contains('hidden');
+            hamburgerButton.setAttribute('aria-expanded', !isExpanded);
+        });
     </script>
 </body>
 </html>
