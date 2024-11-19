@@ -11,7 +11,7 @@ from urllib.parse import urlparse
 
 
 # Initialisation du WebDriver (chemin vers votre driver Chrome)
-driver_path = "C:/Users/USER/Downloads/tespy/chromedriver-win64/chromedriver.exe"
+driver_path = "C:/Users/ANTEC/Downloads/MIF_map/scaped/chromedriver-win64/chromedriver.exe"
 service = Service(driver_path)
 driver = webdriver.Chrome(service=service)
  

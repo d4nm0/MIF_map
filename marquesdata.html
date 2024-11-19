@@ -27,6 +27,11 @@
             border-radius: 4px;
             font-size: 16px;
         }
+
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -57,8 +62,57 @@
         </div>
         </div>
     </nav>
- 
+    <button id="openModal" class="py-2 px-4 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700">
+        Modifier la Marque
+    </button>
     <div id="data-container"></div>
+
+    <!-- La Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+            <button id="closeModal" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+                &times;
+            </button>
+            <h1 class="text-center text-3xl font-semibold mb-8">Modifier la Marque</h1>
+            <form id="editForm" class="space-y-4">
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe :</label>
+                    <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label for="nom" class="block text-sm font-medium text-gray-700">Nom :</label>
+                    <input type="text" id="nom" name="nom" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description :</label>
+                    <textarea id="description" name="description" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                </div>
+
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-700">URL de l'image :</label>
+                    <input type="url" id="image" name="image" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <label for="logo" class="block text-sm font-medium text-gray-700">Logo :</label>
+                    <input type="url" id="logo" name="logo" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            
+                <div>
+                    <label for="link" class="block text-sm font-medium text-gray-700">Lien :</label>
+                    <input type="url" id="link" name="link" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Mettre a jour
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -80,7 +134,7 @@
 
             // Récupère les données
             const data = await  fetchDataById(id);
-            console.log(data)
+            // console.log(data)
             // Affiche les données dans le conteneur avec le nouveau design
             // <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
                     // <div class="border-t border-gray-200 pt-4">
@@ -131,11 +185,109 @@
             return data;
         }
 
+        
+        // Fonction pour se connecter
+        async function signIn(password) {
+            const datauser = await supabase.auth.signInWithPassword({
+                email: 'dan.monceau.lpcb@gmail.com',  // Remplacez par votre email
+                password: password,  // Remplacez par votre mot de passe
+            });
+            return datauser.data.session.access_token
+ 
+            
+        }
+
         // Appelle la fonction une fois la page chargée
         const id = getIdFromUrl(); // Récupère l'ID depuis l'URL
         const itemIdElement = document.getElementById("item-id");
         displayData(id);
  
+
+        // Sélection des éléments
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modal = document.getElementById('modal');
+        const form = document.getElementById('editForm');
+
+        // Ouvrir la modal
+        openModalBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+
+            const form = document.getElementById('editForm');
+
+
+
+            const fetchData = async () => {
+                
+                try {
+                    // Exemples de données récupérées
+                    const data = await  fetchDataById(id);
+                    console.log(data)
+
+                    // Préremplir les champs du formulaire
+                    form.elements['password'].value = data.password || ''; // Par sécurité, ne jamais afficher de mot de passe !
+                    form.elements['nom'].value = data.Name || '';
+                    form.elements['description'].value = data.Description || '';
+                    form.elements['image'].value = data.image || '';
+                    form.elements['logo'].value = data.Logo || '';
+                    form.elements['link'].value = data.link || '';
+                } catch (error) {
+                    console.error('Erreur lors de la récupération des données :', error);
+                    alert('Impossible de charger les données.');
+                }
+            };
+
+        fetchData();
+
+        });
+
+        // Fermer la modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Fermer la modal en cliquant en dehors
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        // Soumission du formulaire
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            const user = await signIn(data.password);
+            console.log(user)
+            if (user) {
+               const id = getIdFromUrl();
+
+            const { data2, error } = await  supabase
+                    .from('Marques')  // Nom de la table Supabase
+                    .update({ 
+                        Name: data.nom,         // Utilise le nom des colonnes de la table pour les clés
+                        Description: data.description,
+                        image: data.image,
+                        link: data.link,
+                        Logo: data.logo
+                    })
+                    .eq('id', id); // Condition pour mettre à jour (ici, `id` = markerId)
+                    console.log(id);
+                if (error) {
+                    console.error('Erreur lors de la mise à jour des données :', error);
+                    alert('Erreur lors de la mise à jour du marqueur.');
+                } else {
+                    // alert('Marqueur mis à jour avec succès !');
+                    // form.reset();  // Réinitialiser le formulaire si nécessaire
+                }
+                modal.classList.add('hidden'); 
+            } else {
+                alert('Échec de la connexion. Veuillez vérifier vos informations de connexion.');
+            }
+           
+        });
     </script>
 </body>
 </html>
