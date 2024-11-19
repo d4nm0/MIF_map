@@ -81,11 +81,37 @@
             // Récupère les données
             const data = await  fetchDataById(id);
             console.log(data)
-            // Affiche les données dans le conteneur
+            // Affiche les données dans le conteneur avec le nouveau design
+            // <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+                    // <div class="border-t border-gray-200 pt-4">
+                    //     <dt class="font-medium text-gray-900">Logo</dt>
+                    //     <dd class="mt-2 text-sm text-gray-500">${data.Logo}</dd>
+                    // </div>
+                    // <!-- Ajoute d'autres propriétés dynamiques si nécessaire -->
+                    // </dl>
             dataContainer.innerHTML = `
-                <h2>${data.Name}</h2>
-                <p>${data.Description}</p>
-                <p> </strong> ${data.Logo}</p>
+            <div class="bg-white">
+                <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+                <div>
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">${data.Name}</h2>
+                    <p class="mt-4 text-gray-500">${data.Description}</p>
+                    <br>
+                    <a href="${data.link}" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Visiter
+                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        </svg>
+                    </a>
+
+                    
+                </div>
+                <div class="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
+                    <!-- Images statiques, ou dynamisées en fonction des données -->
+                    <img src="${data.Logo}" alt="${data.Name} - Image 1" class="rounded-lg bg-gray-100">
+                    <img src="${data.image}" alt="${data.Name} - Image 2" class="rounded-lg bg-gray-100"> 
+                </div>
+                </div>
+            </div>
             `;
         }
 
