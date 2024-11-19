@@ -103,38 +103,50 @@
         }
 
         function generateTable(data) {
-            // Crée la table
-            const table = document.createElement("table");
+            // Crée un conteneur pour les tuiles
+            const container = document.createElement("div");
+            container.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-center mx-auto max-w-6xl p-4";// Utilise des classes Tailwind pour un affichage en grille
 
-            // Crée l'en-tête
-            const thead = document.createElement("thead");
-            thead.innerHTML = `
-                <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Logo</th>
-                <th>Lien</th>
-                </tr>
-            `;
-            table.appendChild(thead);
 
-            // Crée le corps du tableau
-            const tbody = document.createElement("tbody");
+                // Fonction pour tronquer le texte à 200 caractères
+                function truncateText(text, maxLength) {
+                    if (text.length > maxLength) {
+                        return text.slice(0, maxLength) + '...';
+                    }
+                    return text;
+                }
+            // Parcourt les données et génère des tuiles
             data.forEach(item => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                <td>${item.id}</td>
-                <td><a href="/marquesdata.html?id=${item.id}">${item.Name}</a></td>
-                <td>${item.Description}</td>
-                <td><img src="${item.Logo}" alt="${item.Name}" /></td>
-                <td><a href="${item.link}" target="_blank">Visiter</a></td>
+                const tile = document.createElement("div");
+                tile.className = "max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700";
+                // Tronque la description
+                const truncatedDescription = truncateText(item.Description, 200);
+
+                tile.innerHTML = `
+                    <a href="/marquesdata.html?id=${item.id}">
+                        <div class="flex justify-center">
+                            <img class="rounded-t-lg h-48 w-full object-cover" src="${item.Logo}" alt="${item.Name}" />
+                        </div>
+                    </a>
+                    <div class="p-5">
+                        <a href="/marquesdata.html?id=${item.id}">
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">${item.Name}</h5>
+                        </a>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">${truncatedDescription}</p>
+                        <a href="${item.link}" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Visiter
+                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                            </svg>
+                        </a>
+                    </div>
                 `;
-                tbody.appendChild(row);
+
+                // Ajoute la tuile au conteneur
+                container.appendChild(tile);
             });
 
-            table.appendChild(tbody);
-            return table;
+            return container;
             }
 
         fetchData();
