@@ -32,6 +32,10 @@
             display: none;
         }
 
+        #openModal {
+            display: none; /* Le bouton est caché par défaut */
+        }
+
     </style>
 </head>
 <body>
@@ -115,6 +119,14 @@
     </div>
 
     <script type="module">
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Vérifier si 'edit=true' est présent
+        if (urlParams.get('edit') === 'true') {
+            // Afficher le bouton si la condition est remplie
+            document.getElementById('openModal').style.display = 'block';
+        }
+        
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
         import { SUPABASE_URL, SUPABASE_KEY } from './config.js'; 
