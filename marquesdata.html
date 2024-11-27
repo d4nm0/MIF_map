@@ -11,6 +11,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,8 +39,13 @@
             display: none;
         }
 
-        #openModal {
+        #openModal, #AddMarker {
             display: none; /* Le bouton est caché par défaut */
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
         }
 
     </style>
@@ -122,6 +130,26 @@
         </div>
     </div>
 
+    <div id="modaladdmarker" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+            <button id="closeModaladdmarker" class="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+                &times;
+            </button>
+            <h1 class="text-center text-3xl font-semibold mb-8">Ajouter un marker</h1>
+            <form id="markerForm">
+                <label for="markerSelect" class="block text-sm font-medium text-gray-700">Markers</label>
+                <select id="markerSelect" name="marker" class="block w-full mt-2 p-2 border border-gray-300 rounded-lg">
+                    <!-- Les options seront insérées ici dynamiquement -->
+                </select>
+                <div class="mt-4 flex justify-end"> 
+                    <button type="button"  id="validateButtonAddMarker" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
     <script type="module">
         const urlParams = new URLSearchParams(window.location.search);
         
@@ -129,6 +157,7 @@
         if (urlParams.get('edit') === 'true') {
             // Afficher le bouton si la condition est remplie
             document.getElementById('openModal').style.display = 'block';
+            // document.getElementById('AddMarker').style.display = 'block';
         }
         
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -148,41 +177,43 @@
  
  
 
-            // Récupère les données
+            // Récupère les données 
             const data = await  fetchDataById(id);
-            // console.log(data)
-            // Affiche les données dans le conteneur avec le nouveau design
-            // <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
-                    // <div class="border-t border-gray-200 pt-4">
-                    //     <dt class="font-medium text-gray-900">Logo</dt>
-                    //     <dd class="mt-2 text-sm text-gray-500">${data.Logo}</dd>
-                    // </div>
-                    // <!-- Ajoute d'autres propriétés dynamiques si nécessaire -->
-                    // </dl>
             dataContainer.innerHTML = `
             <div class="bg-white">
                 <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
-                <div>
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">${data.Name}</h2>
-                    <p class="mt-4 text-gray-500">${data.Description}</p>
-                    <br>
-                    <a href="${data.link}" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Visiter
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                        </svg>
-                    </a>
+                    <div id="map"></div>
+                    <div>
+                        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">${data.Name}</h2>
+                        <p class="mt-4 text-gray-500">${data.Description}</p>
+                        <br>
+                        <a href="${data.link}" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Visiter
+                            <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                            </svg>
+                        </a>
 
+                        <a id="AddMarker" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Ajouter un Marker
+                        </a>
+
+                        
+                    </div>
                     
-                </div>
-                <div class="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
-                    <!-- Images statiques, ou dynamisées en fonction des données -->
-                    <img src="${data.Logo}" alt="${data.Name} - Image 1" class="rounded-lg bg-gray-100">
-                    <img src="${data.image}" alt="${data.Name} - Image 2" class="rounded-lg bg-gray-100"> 
-                </div>
+                    <div class="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
+                        <!-- Images statiques, ou dynamisées en fonction des données -->
+                        <img src="${data.Logo}" alt="${data.Name} - Image 1" class="rounded-lg bg-gray-100">
+                        <img src="${data.image}" alt="${data.Name} - Image 2" class="rounded-lg bg-gray-100"> 
+                    </div>
+                    
                 </div>
             </div>
             `;
+
+            if (urlParams.get('edit') === 'true') {  
+                document.getElementById('AddMarker').style.display = 'block';
+            }
         }
 
         // Fonction pour simuler une base de données ou un appel API
@@ -201,7 +232,6 @@
             return data;
         }
 
-        
         // Fonction pour se connecter
         async function signIn(password) {
             const datauser = await supabase.auth.signInWithPassword({
@@ -227,6 +257,7 @@
 
         // Ouvrir la modal
         openModalBtn.addEventListener('click', () => {
+            map.classList.add('hidden');
             modal.classList.remove('hidden');
 
             const form = document.getElementById('editForm');
@@ -257,6 +288,105 @@
 
         });
 
+        setTimeout(() => {
+            const AddMarkerBtn = document.getElementById('AddMarker');
+            const modaladdmarker = document.getElementById('modaladdmarker');
+            const map = document.getElementById('map');
+            AddMarkerBtn.addEventListener('click', () => {
+                map.classList.add('hidden');
+                modaladdmarker.classList.remove('hidden');
+
+                 showMarkers(); 
+                 
+
+            });
+
+            modaladdmarker.addEventListener('click', (event) => {
+                console.log(event)
+                if (event.target === modaladdmarker) {
+                    modaladdmarker.classList.add('hidden');
+                    map.classList.remove('hidden');
+                }
+            });
+
+             
+
+        },3000);
+
+        document.getElementById("validateButtonAddMarker").addEventListener("click", () => { 
+            const select = document.getElementById("markerSelect");
+            const selectedMarkerId = select.value; // Récupérer l'ID du marker sélectionné
+
+            if (!selectedMarkerId) {
+                alert("Veuillez sélectionner un marker avant de valider.");
+                return;
+            }
+
+            // Appelez la fonction que vous souhaitez exécuter avec l'ID sélectionné
+            console.log(selectedMarkerId)
+            insertMarqueUsine(selectedMarkerId);
+            // executeFunction(selectedMarkerId);
+            // closeModal(); // Ferme la modal après validation
+        });
+
+        async function insertMarqueUsine(usineId) {
+            try {
+                const id = getIdFromUrl();
+                // Insérer dans la table Marques_usines
+                const { data, error } = await supabase
+                    .from("Marques_usines")
+                    .insert([
+                        {
+                            marque_id: id, // ID fixe pour la marque
+                            usines_id: usineId, // ID sélectionné dans la modal
+                        },
+                    ]);
+
+                if (error) {
+                    console.error("Erreur lors de l'insertion :", error);
+                    alert("Une erreur s'est produite lors de l'ajout. Veuillez réessayer.");
+                } else {
+                    console.log("Insertion réussie :", data);
+                    alert("Usine ajoutée avec succès !"); 
+                }
+            } catch (err) {
+                console.error("Erreur inattendue :", err);
+                alert("Une erreur inattendue s'est produite.");
+            }
+        }
+
+        async function showMarkers() {
+            const markerList = await fetchAllMarker(); // Attendez que la promesse soit résolue
+            console.log(markerList); // Affiche les données une fois qu'elles sont récupérées
+            const select = document.getElementById("markerSelect");
+            // Vider les options existantes
+            select.innerHTML = "";
+
+            // Ajouter une option par défaut
+            select.innerHTML = '<option value="" disabled selected>Choisissez un marker</option>';
+
+            // Ajouter les options dynamiquement
+            markerList.forEach(marker => {
+                const option = document.createElement("option");
+                option.value = marker.id; // Supposez que chaque marker a un ID
+                option.textContent = marker.name || `${marker.title}`; // Ajustez en fonction de vos données
+                select.appendChild(option);
+            });
+        }
+
+        async function fetchAllMarker() {
+            const { data, error } = await supabase
+            .from('Marker') // Remplacez par le nom de votre table
+            .select('*'); // Sélectionner toutes les colonnes
+
+            if (error) {
+                console.error('Erreur lors de la récupération des données :', error);
+                return;
+            } else {
+                return data;
+            }
+        }
+
         // Fermer la modal
         closeModalBtn.addEventListener('click', () => {
             modal.classList.add('hidden');
@@ -266,6 +396,7 @@
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.classList.add('hidden');
+                map.classList.remove('hidden');
             }
         });
 
@@ -304,6 +435,95 @@
             }
            
         });
+
+        setTimeout(() => {
+            
+        
+        const map = L.map('map').setView([46.603354, 1.888334], 6);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+        }).addTo(map);
+
+        const markers = L.markerClusterGroup({
+            iconCreateFunction: function(cluster) {
+                // Récupérer le nombre de marqueurs dans le cluster
+                const markersCount = cluster.getChildCount();
+
+                // Choisir une image selon le nombre de marqueurs
+                let imageUrl = 'cluster.jpg'; // Par défaut, une petite image
+
+                // Retourner un DivIcon personnalisé avec l'image
+                return new L.DivIcon({
+                    html: `<div style="width: 40px; height: 40px; background-image: url(${imageUrl}); background-size: cover; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${markersCount}</div>`,
+                    className: 'marker-cluster',
+                    iconSize: new L.Point(40, 40)  // Taille de l'icône
+                });
+            }
+        });
+
+        // Définir des icônes pour chaque type
+        const iconMap = {
+            usi: L.icon({
+                iconUrl: 'usi.png',
+                iconSize: [20, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32],
+                className: 'marker-icon'
+            }),
+            mag: L.icon({
+                iconUrl: 'mif.png',
+                iconSize: [32, 32],
+                iconAnchor: [16, 32],
+                popupAnchor: [0, -32],
+                className: 'marker-icon'
+            })
+        };
+
+        async function fetchDataMarkerById(id) {
+            // Récupérer les données depuis Supabase
+            const { data, error } = await supabase
+                .from("Marques_usines") // Remplacez par le nom de votre table
+                .select('Marker(*)') // Sélectionner toutes les colonnes
+                .eq("marque_id", id);
+
+            if (error) {
+                console.error('Erreur lors de la récupération des données :', error);
+                return;
+            }
+ 
+            // Ajouter les marqueurs à la carte
+            // console.log(data)
+            data.forEach(point => {
+                // console.log(point)
+                const markerIcon = iconMap[point.Marker.type] || L.icon({
+                    iconUrl: 'marker.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32],
+                    className: 'marker-icon'
+                });
+
+                const marker = L.marker([point.Marker.lat, point.Marker.lng], { icon: markerIcon });
+
+                const popupContent = `
+                    <div class="popup-content">
+                        <img src="${point.Marker.image}" alt="${point.Marker.title}" />
+                        <h3>${point.Marker.title}</h3>
+                        <p>${point.Marker.description}</p>
+                        <a href="${point.Marker.link}" target="_blank">En savoir plus</a>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                markers.addLayer(marker);
+            });
+
+            map.addLayer(markers);
+        }
+        fetchDataMarkerById(id);
+    }, 1000);
     </script>
 </body>
 </html>
